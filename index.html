@@ -76,30 +76,70 @@ By submitting this form, you consent to sharing your information with the admini
 <footer>LogicSpace © 2026</footer>
 
 <script>
-const data=[];
-["English","Hindi","Telugu"].forEach(lang=>{
-["AI","Machine Learning","Data Science","Cyber Security"].forEach(c=>{
-data.push({lang,name:c+" ("+lang+")",link:"https://www.youtube.com/results?search_query="+encodeURIComponent(c+" course "+lang),img:"https://techcmantix.com/ai-and-machine-learning/?random="+Math.floor(Math.random()*1000)});
-});
+const data = [];
+
+const courseImages = {
+  "AI": "https://via.placeholder.com/400x220?text=Artificial+Intelligence",
+  "Machine Learning": "https://via.placeholder.com/400x220?text=Machine+Learning",
+  "Data Science": "https://via.placeholder.com/400x220?text=Data+Science",
+  "Cyber Security": "https://via.placeholder.com/400x220?text=Cyber+Security"
+};
+
+["English", "Hindi", "Telugu"].forEach(lang => {
+  ["AI", "Machine Learning", "Data Science", "Cyber Security"].forEach(c => {
+    data.push({
+      lang,
+      name: `${c} (${lang})`,
+      link: "https://www.google.com/search?q=" + encodeURIComponent(c + " course " + lang),
+      img: courseImages[c]
+    });
+  });
 });
 
-const container=document.getElementById("courses");
-function render(){
- const s=document.getElementById("search").value.toLowerCase();
- const l=document.getElementById("lang").value;
- container.innerHTML="";
- data.filter(x=>(!l||x.lang===l)&&x.name.toLowerCase().includes(s)).forEach(x=>{
- container.innerHTML+=`<div class="card"><img src="${x.img}"><div class="p"><h3>${x.name}</h3><a class="btn" target="_blank" href="${x.link}">Start Learning</a></div></div>`;
- });
+const container = document.getElementById("courses");
+
+function render() {
+  const s = document.getElementById("search").value.toLowerCase();
+  const l = document.getElementById("lang").value;
+
+  container.innerHTML = "";
+
+  data
+    .filter(x => (!l || x.lang === l) && x.name.toLowerCase().includes(s))
+    .forEach(x => {
+      container.innerHTML += `
+        <div class="card">
+          <img src="${x.img}" alt="${x.name}">
+          <div class="p">
+            <h3>${x.name}</h3>
+            <a class="btn" target="_blank" href="${x.link}">
+              Start Learning
+            </a>
+          </div>
+        </div>
+      `;
+    });
 }
-render();
-search.oninput=render;
-lang.onchange=render;
 
-document.getElementById("f").onsubmit=e=>{
-e.preventDefault();
-const txt=`LogicSpace Inquiry%0AName: ${name.value}%0AEmail: ${email.value}%0AMobile: ${mobile.value}%0AInterest: ${interest.value}%0AQuery: ${msg.value}`;
-window.open("https://wa.me/918498848080?text="+txt,"_blank");
+render();
+
+document.getElementById("search").oninput = render;
+document.getElementById("lang").onchange = render;
+
+document.getElementById("f").onsubmit = e => {
+  e.preventDefault();
+
+  const txt = `LogicSpace Inquiry
+Name: ${document.getElementById("name").value}
+Email: ${document.getElementById("email").value}
+Mobile: ${document.getElementById("mobile").value}
+Interest: ${document.getElementById("interest").value}
+Query: ${document.getElementById("msg").value}`;
+
+  window.open(
+    "https://wa.me/918498848080?text=" + encodeURIComponent(txt),
+    "_blank"
+  );
 };
 </script>
 </body>
