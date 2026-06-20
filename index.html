@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogicSpace</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f5f7fa}
+header{background:#0f172a;color:#fff;padding:40px;text-align:center}
+.container{width:90%;max-width:1200px;margin:auto}
+.section{padding:30px 0}
+.filters input,.filters select{padding:10px;margin:5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);overflow:hidden}
+.card img{width:100%;height:180px;object-fit:cover}
+.card .p{padding:15px}
+.btn{display:inline-block;background:#2563eb;color:#fff;padding:10px 14px;text-decoration:none;border-radius:6px}
+form input,form textarea,form select{width:100%;padding:10px;margin:8px 0}
+footer{background:#0f172a;color:#fff;text-align:center;padding:20px}
+.notice{background:#eef;padding:10px;border-left:4px solid #2563eb}
+</style>
+</head>
+<body>
+<header>
+<h1>LogicSpace</h1>
+<p>Learn Free Courses Through Curated Recommendations</p>
+</header>
+
+<div class="container">
+<section class="section">
+<h2>Search Courses</h2>
+<div class="filters">
+<input id="search" placeholder="Search course">
+<select id="lang">
+<option value="">All Languages</option>
+<option>English</option>
+<option>Hindi</option>
+<option>Telugu</option>
+</select>
+</div>
+</section>
+
+<section class="section">
+<h2>Popular Recommendations</h2>
+<div class="grid" id="courses"></div>
+</section>
+
+<section class="section">
+<h2>Educational Guidance Form</h2>
+<form id="f">
+<input placeholder="Full Name" id="name" required>
+<input placeholder="Email" id="email" required>
+<input placeholder="Mobile" id="mobile" required>
+<select id="interest">
+<option>AI</option><option>Machine Learning</option>
+<option>Data Science</option><option>Cyber Security</option>
+</select>
+<textarea id="msg" placeholder="Your query"></textarea>
+<div class="notice">
+By submitting this form, you consent to sharing your information with the administrator for educational guidance and course-related support.
+</div>
+<label><input type="checkbox" required> I agree</label><br><br>
+<button type="submit">Send via WhatsApp</button>
+</form>
+</section>
+
+<section class="section">
+<h2>Contact Us</h2>
+<p><b>Name:</b> Madhav Velpula</p>
+<p><b>College:</b> SML Degree College Yemmiganur</p>
+<p><b>Email:</b> velpulamadhav253@gmail.com</p>
+<p><a class="btn" href="https://wa.me/918498848080" target="_blank">Chat on WhatsApp</a></p>
+</section>
+</div>
+
+<footer>LogicSpace © 2026</footer>
+
+<script>
+const data=[];
+["English","Hindi","Telugu"].forEach(lang=>{
+["AI","Machine Learning","Data Science","Cyber Security"].forEach(c=>{
+data.push({lang,name:c+" ("+lang+")",link:"https://www.youtube.com/results?search_query="+encodeURIComponent(c+" course "+lang),img:"https://picsum.photos/400/250?random="+Math.floor(Math.random()*1000)});
+});
+});
+
+const container=document.getElementById("courses");
+function render(){
+ const s=document.getElementById("search").value.toLowerCase();
+ const l=document.getElementById("lang").value;
+ container.innerHTML="";
+ data.filter(x=>(!l||x.lang===l)&&x.name.toLowerCase().includes(s)).forEach(x=>{
+ container.innerHTML+=`<div class="card"><img src="${x.img}"><div class="p"><h3>${x.name}</h3><a class="btn" target="_blank" href="${x.link}">Start Learning</a></div></div>`;
+ });
+}
+render();
+search.oninput=render;
+lang.onchange=render;
+
+document.getElementById("f").onsubmit=e=>{
+e.preventDefault();
+const txt=`LogicSpace Inquiry%0AName: ${name.value}%0AEmail: ${email.value}%0AMobile: ${mobile.value}%0AInterest: ${interest.value}%0AQuery: ${msg.value}`;
+window.open("https://wa.me/918498848080?text="+txt,"_blank");
+};
+</script>
+</body>
+</html>
